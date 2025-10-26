@@ -21,22 +21,93 @@ Designed for **role-based access control (RBAC)** — supporting **Customers**, 
 
 ## ⚙️ Core Use Cases
 
-### 1️⃣ User Registration
-- Customer submits personal details
-- System validates and securely stores the profile
+1. Login (Any User)
+text[User] 
+   ↓  POST /auth/login
+[FastAPI]
+   ↓  Check email + password
+[MongoDB]
+   ↓  User found & password correct?
+[FastAPI]
+   ↓  Generate JWT Token
+   →  { access_token: "eyJ..." }
+[User]
 
-### 2️⃣ Account Creation
-- Choose account type: `Savings`, `Current`, or `Fixed Deposit`
-- System generates a unique account number
-- Records initial deposit
+Anyone can login → gets JWT token
 
-### 3️⃣ Money Transfer
-- Validate sender’s balance and daily limit
-- Perform atomic balance updates across accounts  
-- **Edge Cases Handled:**
-  - Insufficient funds  
-  - Daily transfer limit exceeded
 
+2. Admin Creates Customer
+text[Admin] 
+   ↓  Has JWT Token (from login)
+   ↓  POST /auth/register
+[FastAPI]
+   ↓  Check JWT → role == "admin"?
+   ↓  Yes → Save new user
+[MongoDB]
+   ↓  User saved
+[FastAPI]
+   ↓  Generate JWT for new customer
+   →  { access_token, user: { id, name, email, role: "customer" } }
+[Admin]
+
+Only Admin can create users
+No token in body → only in header
+
+
+3. Admin Creates Account for Customer
+text[Admin] 
+   ↓  Has JWT Token
+   ↓  POST /accounts/?user_id=123
+[FastAPI]
+   ↓  Check JWT → admin?
+   ↓  Find user by ID
+[MongoDB]
+   ↓  User exists?
+   ↓  Yes → Create account
+[MongoDB]
+   ↓  Account saved
+[FastAPI]
+   →  { account_number: "123456789", balance: 5000 }
+[Admin]
+
+Only Admin creates accounts
+Needs customer’s MongoDB ID
+
+
+4. Customer Views Own Accounts
+text[Customer] 
+   ↓  Has JWT Token
+   ↓  GET /accounts/
+[FastAPI]
+   ↓  Check JWT → role == "customer"
+   ↓  Get user_id from token
+   ↓  Find accounts with same user_id
+[MongoDB]
+   →  List of accounts
+[Customer]
+
+Customer sees only their accounts
+
+
+5. Customer Transfers Money
+text[Customer] 
+   ↓  POST /transactions/transfer
+[FastAPI]
+   ↓  Check JWT → customer?
+   ↓  Check sender account = customer’s
+   ↓  Check balance & daily limit
+   ↓  Start transaction
+[MongoDB]
+   ↓  Deduct from sender
+   ↓  Add to receiver
+   ↓  Save transaction
+   ↓  Commit
+[FastAPI]
+   →  { transaction_id, status: "completed" }
+[Customer]
+
+Atomic: All or nothing
+Daily limit checked
 ---
 
 ## 🔐 Security Features
@@ -68,30 +139,50 @@ Designed for **role-based access control (RBAC)** — supporting **Customers**, 
 modular-banking-backend/
 │
 ├── app/
-│   ├── main.py                 # FastAPI app entry
-│   ├── config.py               # DB + JWT setup
-│   ├── models/                 # Pydantic schemas
-│   ├── routes/                 # Modular API endpoints
-│   │   ├── auth.py
-│   │   ├── accounts.py
-│   │   ├── transactions.py
-│   │   ├── loans.py
-│   │   └── audit.py
-│   ├── services/               # Business logic layer
-│   ├── utils/                  # JWT, hashing, rate limiter, etc.
-│   ├── tests/                  # Unit + integration tests
-│   └── __init__.py
+│   ├── main.py                      
+│   ├── config.py                    
+│   │
+│   ├── models/
+│   │   ├── __init__.py
+│   │   └── bank_model.py           
+│   │
+│   ├── routes/
+│   │   ├── __init__.py
+│   │   └── bank_router.py           
+│   │
+│   ├── services/
+│   │   ├── __init__.py
+│   │   └── audit_service.py
+│   │
+│   ├── utils/
+│   │   ├── __init__.py
+│   │   ├── jwt_handler.py
+│   │   ├── password.py
+│   │   ├── auth_middleware.py
+│   │   └── helpers.py
+│   │
+│   └── tests/
+│       ├── __init__.py
+│       ├── test_auth.py
+│       ├── test_accounts.py
+│       └── test_transactions.py
 │
-├── .env                        # Environment variables
+├── .env
 ├── requirements.txt
-├── run.sh                      # Dev startup script
-└── README.md                   # You’re here!
-
+├── pytest.ini
+└── README.md
 ```
 
 ---
 
 ## ⚡ Quick Start
+
+
+<img width="827" height="963" alt="image" src="https://github.com/user-attachments/assets/ffeef737-8832-483f-b295-29e8f8469884" />
+
+
+register a new user {coustmer}
+<img width="532" height="964" alt="image" src="https://github.com/user-attachments/assets/a6d8f56c-8fc3-430e-8d7a-0ae0e6e1ee48" />
 
 ### 1️⃣ Clone & Enter
 
