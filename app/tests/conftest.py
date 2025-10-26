@@ -8,13 +8,15 @@ from mongomock_motor import AsyncMongoMockClient
 def client():
     mock_client = AsyncMongoMockClient()
     db = mock_client["test_bankdb"]
-    app.state.db = db
+    app.state.db = db  # ← THIS IS THE KEY LINE
 
-    async def override_get_database():
+    async def override_get_db():
         return db
 
     from app.config import get_database
-    app.dependency_overrides[get_database] = override_get_database
+    app.dependency_overrides[get_database] = override_get_db
 
-    with TestClient(app) as test_client:
-        yield test_client
+    test_client = TestClient(app)
+    yield test_client
+
+    app.dependency_overrides.clear()
