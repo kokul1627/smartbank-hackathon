@@ -235,6 +235,8 @@ We use `pytest` with `mongomock_motor` to run **fast, isolated unit tests** with
 - **100% safe** — no data loss
 - **Fast & reliable**
 
+<img width="627" height="797" alt="image" src="https://github.com/user-attachments/assets/fc55a050-144c-434b-9aa6-3001bb175a0d" />
+
 ---
 
 ### Setup
