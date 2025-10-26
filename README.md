@@ -139,16 +139,16 @@ Daily limit checked
 modular-banking-backend/
 │
 ├── app/
-│   ├── main.py                      
-│   ├── config.py                    
+│   ├── main.py                      # FastAPI entry (updated imports)
+│   ├── config.py                    # MongoDB + JWT setup
 │   │
 │   ├── models/
 │   │   ├── __init__.py
-│   │   └── bank_model.py           
+│   │   └── bank_model.py            
 │   │
 │   ├── routes/
 │   │   ├── __init__.py
-│   │   └── bank_router.py           
+│   │   └── bank_router.py          
 │   │
 │   ├── services/
 │   │   ├── __init__.py
@@ -163,9 +163,7 @@ modular-banking-backend/
 │   │
 │   └── tests/
 │       ├── __init__.py
-│       ├── test_auth.py
-│       ├── test_accounts.py
-│       └── test_transactions.py
+│       └── test_registration.py
 │
 ├── .env
 ├── requirements.txt
@@ -227,16 +225,25 @@ uvicorn app.main:app --reload
 ---
 
 ## 🧪 Testing
+## Testing with `pytest`
 
-Run full test suite with coverage:
+We use `pytest` with `mongomock_motor` to run **fast, isolated unit tests** without a real MongoDB.
+
+### Features
+- **No real database needed**
+- **Fake in-memory DB** (`test_bankdb`)
+- **100% safe** — no data loss
+- **Fast & reliable**
+
+---
+
+### Setup
 
 ```bash
-pytest --cov=app
-```
+# Install test dependencies
+pip install pytest mongomock-motor
 
-Detailed coverage report:
-
-```bash
-pytest --cov=app --cov-report=term-missing
+# Or from requirements.txt
+pip install -r requirements.txt
 ```
 
