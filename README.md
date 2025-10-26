@@ -234,6 +234,7 @@ We use `pytest` with `mongomock_motor` to run **fast, isolated unit tests** with
 - **Fake in-memory DB** (`test_bankdb`)
 - **100% safe** — no data loss
 - **Fast & reliable**
+<img width="1305" height="307" alt="image" src="https://github.com/user-attachments/assets/b91e17fe-acfe-435c-80d6-b3e915aa3491" />
 
 <img width="627" height="797" alt="image" src="https://github.com/user-attachments/assets/fc55a050-144c-434b-9aa6-3001bb175a0d" />
 
