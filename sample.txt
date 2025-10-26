@@ -1,0 +1,29 @@
+{
+  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjhmZGNjYzNkZTJjNjVhOTNlNGVlMDhlIiwiZW1haWwiOiJ1c2VyMUBleGFtcGxlLmNvbSIsInJvbGUiOiJhZG1pbiIsImV4cCI6MTc2MTQ2NzY3NCwiaWF0IjoxNzYxNDY0MDc0fQ.90KT6lXnCqQ5_mggI55IQ2W5rBASybU1VwiQ9dgLqrY",
+  "token_type": "bearer",
+  "user": {
+    "id": "68fdccc3de2c65a93e4ee08e",
+    "name": "goku",
+    "email": "user1@example.com",
+    "role": "admin",
+    "created_at": "2025-10-26T07:24:51.339000"
+  }
+}
+{
+  "email": "user1@example.com",
+  "password": "goku1234"
+}
+
+customer:
+{
+  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjhmZGNmM2U5NDgyZmFiNTgxMzkwYmI4IiwiZW1haWwiOiJjdXN0b21AZXhhbXBsZS5jb20iLCJyb2xlIjoiY3VzdG9tZXIiLCJleHAiOjE3NjE0Njc3MjYsImlhdCI6MTc2MTQ2NDEyNn0.xkZkI1Y181-jSGfIQtwmIUAw3YfFr_aQpujFdH__PDU",
+  "token_type": "bearer",
+  "user": {
+    "id": "68fdcf3e9482fab581390bb8",
+    "name": "go",
+    "email": "custom@example.com",
+    "role": "customer",
+    "password": "custom123",
+    "created_at": "2025-10-26T07:35:26.081646"
+  }
+}

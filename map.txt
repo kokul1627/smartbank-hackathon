@@ -1,0 +1,42 @@
+modular-banking-backend/
+│
+├── app/
+│   ├── main.py                      # FastAPI entry (updated imports)
+│   ├── config.py                    # MongoDB + JWT setup
+│   │
+│   ├── models/
+│   │   ├── __init__.py
+│   │   └── bank_model.py            # ✨ ALL models in one file
+│   │
+│   ├── routes/
+│   │   ├── __init__.py
+│   │   └── bank_router.py           # ✨ ALL routes in one file
+│   │
+│   ├── services/
+│   │   ├── __init__.py
+│   │   └── audit_service.py
+│   │
+│   ├── utils/
+│   │   ├── __init__.py
+│   │   ├── jwt_handler.py
+│   │   ├── password.py
+│   │   ├── auth_middleware.py
+│   │   └── helpers.py
+│   │
+│   └── tests/
+│       ├── __init__.py
+│       ├── test_auth.py
+│       ├── test_accounts.py
+│       └── test_transactions.py
+│
+├── .env.example
+├── .env
+├── .gitignore
+├── requirements.txt
+├── pytest.ini
+├── run.sh
+├── seed_data.py
+├── Dockerfile
+├── docker-compose.yml
+├── Makefile
+└── README.md
